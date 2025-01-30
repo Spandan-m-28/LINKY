@@ -1,101 +1,101 @@
+"use client";
 import Image from "next/image";
+import { useState } from "react";
+import { toast, Bounce, ToastContainer } from "react-toastify";
+import Router from "next/router";
+import Link from "next/link";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [url, seturl] = useState("");
+  const [subdomain, setsubdomain] = useState("");
+  const [newurl, setNewurl] = useState("");
+  const [forwardUrl, setforwardUrl] = useState("")
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const handleurlChange = (e) => {
+    seturl(e.target.value);
+  };
+
+  const handledomainChange = (e) => {
+    setsubdomain(e.target.value);
+  };
+
+  const handleGenerate = async () => {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ url, subdomain }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      toast.success("URL Generated Successfully");
+      setNewurl(`${process.env.NEXT_PUBLIC_URI}/${data.subdomain}`);
+      setforwardUrl(data.url);
+      console.log(newurl);
+    } else {
+      toast.error("SubDomain already exists");
+    }
+  };
+
+  return (
+    <>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
+      <main className="grid grid-cols-1 md:grid-cols-2 min-h-[94vh]">
+        <div className="hidden md:block mx-auto my-auto">
+        <div className="sec flex justify-center items-center">
+          <Image
+            src="http://lnkiy.com/resources/images/new/lnkiy-home2.svg"
+            width={600}
+            height={600}
+            alt="Img"
+          />
+        </div>
+        </div>
+        <div className="first flex justify-center items-center">
+          <div className="flex flex-col w-[90%] md:w-1/2 h-2/5 justify-center items-center rounded-2xl shadow-lg bg-white p-10 gap-6 md:mr-40 mb-24 md:mb-40">
+            <h5 className="cursor-pointer mb-2 text-4xl font-bold tracking-tight text-black">
+              LINKY
+            </h5>
+            <input
+              onChange={handleurlChange}
+              className="h-11 rounded-lg border-gray-300 px-4 py-2 border-2 md:w-80 w-[97%]"
+              type="text"
+              placeholder="Enter your link"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <input
+              onChange={handledomainChange}
+              className="h-11 rounded-lg border-gray-300 px-4 py-2 border-2 md:w-80 w-[97%]"
+              type="text"
+              placeholder="Enter your sub domain"
+            />
+            <div className="flex justify-center items-center gap-4">
+              <button
+                onClick={handleGenerate}
+                className="relative overflow-hidden rounded-[20px] border-none bg-gradient-to-r from-[#0400ff] to-[#4ce3f7] bg-[length:100%_auto] px-6 py-2 text-[17px] text-white transition-all duration-300 hover:bg-[length:200%_auto] animate-pulse512"
+              >
+                Generate
+              </button>
+            </div>
+
+            {newurl && <code>Your Link: <Link target="_blank" href={forwardUrl} >{newurl}</Link></code>}
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }

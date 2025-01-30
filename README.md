@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <h1>Linky - URL Shortener</h1>
     <p>Linky is a simple and efficient URL shortener web application built using the MERN stack with Next.js.</p>
     
@@ -20,3 +21,5 @@
         <li><strong>Linting & Styling:</strong> ESLint, PostCSS</li>
     </ul>
     
+=======
+>>>>>>> 4dc174b (responsive fixes)
