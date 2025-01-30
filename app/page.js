@@ -59,7 +59,7 @@ export default function Home() {
         <div className="hidden md:block mx-auto my-auto">
         <div className="sec flex justify-center items-center">
           <Image
-            src="http://lnkiy.com/resources/images/new/lnkiy-home2.svg"
+            src="https://res.cloudinary.com/dmeicehn2/image/upload/v1738244599/dqlan2uf1moqnhijca1p.svg"
             width={600}
             height={600}
             alt="Img"
