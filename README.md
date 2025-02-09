@@ -15,7 +15,6 @@
         <li><strong>Frontend:</strong> Next.js, React, Tailwind CSS</li>
         <li><strong>Backend:</strong> Next.js API routes (Serverless functions), MongoDB</li>
         <li><strong>Database:</strong> MongoDB</li>
-        <li><strong>Authentication:</strong> Clerk (if added later)</li>
         <li><strong>Notifications:</strong> React Toastify</li>
         <li><strong>Linting & Styling:</strong> ESLint, PostCSS</li>
     </ul>
